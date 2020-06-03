@@ -39,6 +39,11 @@
 // Для NodeMCU выбираем NodeMCU 1.0 (ESP-12E Module)
 
 // ============= НАСТРОЙКИ =============
+
+// -------- SSDP -------
+
+#define SSDP_DISPLAY_NAME	"GyverLamp v1.5"
+
 // -------- КНОПКА -------
 #define USE_BUTTON 0    // 1 - использовать кнопку, 0 - нет
 
@@ -102,7 +107,7 @@ byte IP_AP[] = {192, 168, 4, 66};   // статический IP точки до
 #include <WiFiUdp.h>
 #include <EEPROM.h>
 #include <NTPClient.h>
-#include <ESP8266SSDP.h>
+#include <ESP8266SSDPMod.h>
 #include <GyverButton.h>
 #include "fonts.h"
 
@@ -160,6 +165,16 @@ String timeStr = "00:00";
 
 ESP8266WebServer HTTP(80);
 
+/* Названия режимов, отображаемые в приложении */
+
+const char ssdp_modes[MODE_AMOUNT][SSDP_MAX_MODE_NAME_LENGTH] PROGMEM = {
+	"Конфетти","Огонь","Радуга верт.","Радуга гориз.",
+	"Смена цвета","Безумие 3D","Облака 3D","Лава 3D",
+	"Плазма 3D","Радуга 3D","Павлин 3D","Зебра 3D",
+	"Лес 3D","Океан 3D","Цвет","Снег","Матрица","Подсветка"
+};
+
+
 void setup() {
   ESP.wdtDisable();
   //ESP.wdtEnable(WDTO_8S);
@@ -207,22 +222,45 @@ void setup() {
     Serial.println(WiFi.localIP());
     lampIP = WiFi.localIP().toString();
 
+	// Запуск SSDP сервера.
+	
     HTTP.on("/description.xml", HTTP_GET, []() {
       SSDP.schema(HTTP.client());
     });
+	
     HTTP.begin();
-    //Если версия  2.0.0 закаментируйте следующую строчку
+	
+    /* Не изменять */
     SSDP.setDeviceType("upnp:rootdevice");
     SSDP.setSchemaURL("description.xml");
     SSDP.setHTTPPort(80);
-    SSDP.setName("GyverLamp");
+	SSDP.setURL("/");
+	
+	/* Название лампы */
+    SSDP.setName(SSDP_DISPLAY_NAME);
+	
+	/* Серийный номер, можно изменить */
     SSDP.setSerialNumber("001788102201");
-    SSDP.setURL("/");
+	
+	/* Имя модели, можно изменить */
     SSDP.setModelName("GyverLamp - SSDP");
+	
+	/* Названия режимов */
+	
+	SSDP.setModes(ssdp_modes, MODE_AMOUNT);
+	
+	/* 
+	 * Номер модели, не изменять 
+	 *
+	 *	ModelNumber = MurmurHash2("GyverLamp") = 0x4F790C92
+	 */
     SSDP.setModelNumber("00004F790C92");
+	
+	/* Можно изменять */
     SSDP.setModelURL("https://nproject.pw/gylamp");
     SSDP.setManufacturer("By ESP8266 Community");
     SSDP.setManufacturerURL("https://community.alexgyver.ru");
+	
     SSDP.begin();
       
    
