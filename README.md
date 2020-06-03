@@ -11,7 +11,7 @@
 
 Для начала необходимо установить Arduino IDE и ядро ESP8266.
 
-- Скачайте и установите Arduino IDE. Новую версию вы всегда смежете найти на сайте [Arduino](https://www.arduino.cc/en/main/software)
+- Скачайте и установите Arduino IDE. Новую версию вы всегда сможете найти на сайте [Arduino](https://www.arduino.cc/en/main/software)
 - Запустите Arduino и откройте окно настроек
 - Добавьте ```https://arduino.esp8266.com/stable/package_esp8266com_index.json``` в поле *Дополнительные ссылки для Менеджера плат*. Вы можете использовать несколько ссылок, разделяя их запятыми
 - Откройте *Менеджер плат* в меню "Инструменты > Плата > Менеджер плат ..." и в поисковой строке введите *esp8266*. Установите найденную платформу.
@@ -49,7 +49,7 @@ SSL support: "All SSL ciphers"
 Для автоматической компиляции необходимо установить Arduino IDE и скачать приложение arduino-cli.
 
 - Скачайте или склонируйте этот репозиторий
-- Скачайте и установите Arduino IDE. Новую версию вы всегда смежете найти на сайте [Arduino](https://www.arduino.cc/en/main/software)
+- Скачайте и установите Arduino IDE. Новую версию вы всегда сможете найти на сайте [Arduino](https://www.arduino.cc/en/main/software)
 - Скачайте [arduino-cli](https://github.com/arduino/arduino-cli/releases) и распакуйте его в корень репозитория так, чтобы *arduino-cli* лежала в одной папке с папкой *firmware*
 
 #### Windows
