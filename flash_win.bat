@@ -26,7 +26,7 @@ if [%1]==[] (
 
 set BUILD_FQBN=%1
 
-arduino-cli config init --dest-dir "%CONFIG_PATH%" --additional-urls http://arduino.esp8266.com/stable/package_esp8266com_index.json 
+arduino-cli config init --dest-dir "%CONFIG_PATH%" --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json 
 
 rename "%CONFIG_PATH%\arduino-cli.yaml" "arduino-cli-old.yaml"
 
@@ -37,7 +37,10 @@ rename "%CONFIG_PATH%\arduino-cli.yaml" "arduino-cli-old.yaml"
 )) > "%CONFIG_PATH%\arduino-cli.yaml"
 
 
-arduino-cli core install esp8266:esp8266 --config-file "%CONFIG_PATH%\arduino-cli.yaml"
+ arduino-cli core update-index --config-file "%CONFIG_PATH%\arduino-cli.yaml"
+
+arduino-cli core download esp8266:esp8266@2.7.1 --config-file "%CONFIG_PATH%\arduino-cli.yaml"
+arduino-cli core install esp8266:esp8266@2.7.1 --config-file "%CONFIG_PATH%\arduino-cli.yaml"
 
 echo.
 echo.
